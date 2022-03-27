@@ -38,3 +38,9 @@ game Loto with several setting
 - (знаком минус) отмечены уже зачеркнутые цифры
 
 ![image](https://user-images.githubusercontent.com/63307876/160231056-d1f23eec-f484-4de5-ad8a-f01123af3a3d.png)
+
+
+Процент покрытия тестов:
+
+![image](https://user-images.githubusercontent.com/63307876/160291949-a055fc7b-e333-4077-927b-46d5f5fd7c68.png)
+
