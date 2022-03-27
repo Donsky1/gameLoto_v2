@@ -7,20 +7,26 @@ class Loto:
         self.count_players = count_players
         self.player_list = player_list
 
-    def play(self):
+    def play(self, show_card=None, mode=None):
         random_n = set(range(1, 91))
+        auto_answer = None
         for player in self.player_list:
             player.generate_card()
         while True:
             players = []
-            look_number = set(random.sample(random_n, 1))
-            random_n -= look_number
-            print(f'Новый  бочонок: {list(look_number)[0]}, (Осталось {len(random_n)})')
-            for player in self.player_list:
-                player.show_card(player.get_type_player())
+            if mode is None:  # если в рабочем режиме, а не тестировании
+                look_number = set(random.sample(random_n, 1))
+                random_n -= look_number
+            else:
+                look_number = {100}  # для тестирования
+                auto_answer = 'y'
+            if show_card is None:
+                print(f'Новый  бочонок: {list(look_number)[0]}, (Осталось {len(random_n)})')
+                for player in self.player_list:
+                    print(player.show_card(player.type_player))
 
             for player in self.player_list:
-                states = player.update_card(list(look_number)[0], player.get_type_player())
+                states = player.update_card(list(look_number)[0], player.type_player, mode=mode, auto_answer=auto_answer)
                 players.append(states)
 
             # Далее идут условия окончания игровой партии
@@ -29,7 +35,7 @@ class Loto:
                 _, count_int, name = player
                 if count_int == 0:
                     print(f'Поздравляем. У нас есть победитель. Это {name}')
-                    exit()
+                    return 1
 
             # 2.  Игра заканчивается, если ...
             # отлавливаются index-ы, чтобы исключить игрока если state = 0
@@ -42,13 +48,13 @@ class Loto:
                     indices.append(index)
             shift = 0
             for i in indices:
-                self.player_list.pop(i-shift)
+                self.player_list.pop(i - shift)
                 shift += 1
 
             if len(self.player_list) == 1:
                 print(f'Остался 1 игрок {self.player_list[0].name}. Победитель!!!')
-                exit()
+                return 1
             elif len(self.player_list) == 0:
                 print('Важное уведомление!!!')
                 print('Все участники игры проиграли, неправильно приняв решение. \nИгра заканчивается')
-                exit()
+                return 0

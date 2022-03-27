@@ -1,4 +1,4 @@
-from Loto import Loto
+from loto import Loto
 from functions import *
 
 
