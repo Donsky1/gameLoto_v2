@@ -1,4 +1,6 @@
 from player import Player
+import pytest
+from errors import ErrorSetPlayer
 
 
 class TestPlayer:
@@ -6,6 +8,10 @@ class TestPlayer:
     def setup(self):
         self.player = Player(0, 'Comp1')
         self.player2 = Player(1, 'User1')
+        self.player2_2 = Player(1, 'User1')
+
+    def test_equal(self):
+        assert self.player2 == self.player2_2
 
     def test_init(self):
         assert self.player.type_player == 0
@@ -18,9 +24,17 @@ class TestPlayer:
         assert len(self.player._player_card) == self.player._h
         assert len([y for items in self.player._player_card for y in items if y.isdigit()]) == self.player._len_card
 
-    def test_show_card(self):
-        assert self.player.show_card(self.player.type_player) != ''
-        assert self.player.name in self.player.show_card(self.player.type_player)
+    def test_str(self):
+        assert self.player.__str__() != ''
+        assert self.player.name in self.player.__str__()
+        # assert self.player.print(self.player.type_player) != ''
+        # assert self.player.name in self.player.show_card(self.player.type_player)
+
+    def test_set_list_players(self):
+        assert Player.set_list_players(3, mode=['0', 'TEST']) == [Player(0, 'TEST'), Player(0, 'TEST'),
+                                                                  Player(0, 'TEST')]
+        with pytest.raises(ErrorSetPlayer):
+            self.player.set_list_players(3, mode=['2', 'user_test'])
 
     def test_update_card(self):
         # checking computer
@@ -46,6 +60,6 @@ class TestPlayer:
                                         mode=True, auto_answer='y') == (1, 14, self.player2.name)
         # 3.4 check: if number in card but user chose 'n'
         tmp_number_in_card = [int(y) for items in self.player2._player_card for y in items if y.isdigit()][0]
-        self.player2._len_card = 15 # hard reset counter card numbers
+        self.player2._len_card = 15  # hard reset counter card numbers
         assert self.player2.update_card(tmp_number_in_card, self.player2.type_player,
                                         mode=True, auto_answer='n') == (0, 15, self.player2.name)

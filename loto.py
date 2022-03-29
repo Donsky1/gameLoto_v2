@@ -7,6 +7,16 @@ class Loto:
         self.count_players = count_players
         self.player_list = player_list
 
+    @staticmethod
+    def main_menu():
+        print('-' * 30)
+        print('Режим игры')
+        print('1. компьютер - человек')
+        print('2. человек - человек')
+        print('3. компьютер - компьютер')
+        print('4. Любое кол-во игроков')
+        print('5. Выход из игры')
+
     def play(self, show_card=None, mode=None):
         random_n = set(range(1, 91))
         auto_answer = None
@@ -20,10 +30,11 @@ class Loto:
             else:
                 look_number = {100}  # для тестирования
                 auto_answer = 'y'
+
             if show_card is None:
                 print(f'Новый  бочонок: {list(look_number)[0]}, (Осталось {len(random_n)})')
                 for player in self.player_list:
-                    print(player.show_card(player.type_player))
+                    print(player)
 
             for player in self.player_list:
                 states = player.update_card(list(look_number)[0], player.type_player, mode=mode, auto_answer=auto_answer)
