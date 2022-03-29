@@ -42,5 +42,5 @@ game Loto with several setting
 
 Процент покрытия тестов:
 
-![image](https://user-images.githubusercontent.com/63307876/160291949-a055fc7b-e333-4077-927b-46d5f5fd7c68.png)
+![image](https://user-images.githubusercontent.com/63307876/160602916-4f243544-171c-477d-b8f8-0b5747c9eb9e.png)
 
